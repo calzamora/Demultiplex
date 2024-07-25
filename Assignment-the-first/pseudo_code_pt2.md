@@ -25,10 +25,10 @@ take in 3 strings (header, index 1, index 2)
 return(header + index1 + index2)
 
 def: get average of quality score for read (PS4)
-
+a function to get the MEAN q score for an entire read
 
 def: write file 
-
+writes out the file and DYNAMICALLy names it with the barcode seq when applicable
 
 OPEN txt file of indexes 
     create a set containing ALL UNIQUE barcodes
