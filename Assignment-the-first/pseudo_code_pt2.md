@@ -1,3 +1,7 @@
+Define the problem: 
+The problem for de-multiplexing is that the 4 intitial read files that are given contain reads from 24 seperate cell lines which were each prepped with different barcodes. The goal is to take these 4 files and output 52 files. 2 unknown (FW and RV reads in which the index aka barcode is either not in the barcde library OR is too low of a qual score) - 2 unmatched (FW and RV reads in which the indexes ARE in the library but do not match indicating that index hopping occured) - and 48 matched files (24 FW reads for each indes and 24 RV reads for each index)
+
+
 ARG PARSE: 
 inputs: 
 1) f1, f2, f3, f4
