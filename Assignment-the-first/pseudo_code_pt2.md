@@ -30,16 +30,36 @@ a function to get the MEAN q score for an entire read
 def: write file 
 writes out the file and DYNAMICALLy names it with the barcode seq when applicable
 
-OPEN txt file of indexes 
-    create a set containing ALL UNIQUE barcodes
+
+
+INITIALIZE: 
 
 4 lists to hold the RECORD for each file every loop
 File1 = []
 File2 = []
 File3 = []
 File4 = []
-matched_dict = {} #to count the number in each file 
-unmatched_dict = {}
+
+OPEN txt file of indexes 
+    create a set containing ALL UNIQUE barcodes
+
+initialize index list dictionary for COUNTING: key : TOUPLE for each possible index combo VALUE: occurance 
+for index1 in index list: 
+    for index2 in index list:
+    key = (index1, reverse_compliment(index2))
+    value = 0 
+
+initialize dict to append index to header:
+key: same aas couter dict above
+value: string of indexes but with second index reverse complimented 
+
+#when appending header we will call back to this dictionary RATHER than reverse complimenting each time we read a R3 seq line
+#the goal of the two dictionaries above is to limit the amount of times we have to reverse compliment 
+
+#BC we will only be comparing R3 to index, having the second tuple being the RC of the indexes means that we only have to call the 
+RC function when we populate the dictionary and tehn we can compare the original R3 file to this withough having ot RC each time we read a seq in R3
+
+unknown_read_counter = 0
 
 OPEN all 4 read files concurently (While true loop)
     for i in range 4 
@@ -47,26 +67,24 @@ OPEN all 4 read files concurently (While true loop)
         file2.readline.strip.append
         file3.readline.strip.append
         file4.readline.strip.append
-    use reverse compliment function to rc R3 file seq line 
     APPEND indexes (R2 + R3 files) to END OF ALL HEADERS in R1 + R4 files
     append_index_head(F2)
     append_index_head(F3)
     IF (indexes are unknown either containing Ns or NOT in the set of indexes)
         write R1 file (w indexes appended) -> UNKNOWN biological reads 1 (FW reads) 
         write R2 file (w indexes appended) -> UNKNOWN biological reads 2 (RV reads)
+        unknown_read_counter += 1
     ELIF indicies are valid (are in the set of known indexes):
         IF mean qual score of the INDEX is NOT greater than or equal to the cut off:
         write R1 file (w indexes appended) -> UNKNOWN biological reads 1 (FW reads) 
         write R2 file (w indexes appended) -> UNKNOWN biological reads 2 (RV reads)
         ELIF: 
             IF both indexes appended to the headers MATCH:
-                if in matched_dict += 1
-                if not in matched = 1
                 write R1 file (w indexes appended) -> MATCHED biological reads 1 (FW reads) 
                 write R2 file (w indexes appended) -> MATCHED biological reads 2 (RV reads)
+                index_dictionary([index, index]) += 1
             ELIF: (indexes are valid but do not MATCH):
-                if in unmatched_dict += 1
-                if not in unmatched = 1
+                index_dictionary([index1, index2]) += 1
                 write R1 file (w indexes appended) -> UNMATCHED biological reads 1 (FW reads) 
                 write R2 file (w indexes appended) -> UNMATCHED biological reads 2 (RV reads)
     File1 = []
