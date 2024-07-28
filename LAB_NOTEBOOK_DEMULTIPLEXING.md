@@ -75,4 +75,13 @@ initialize a list of the LENGTH of the reads (101 for the biological reads, 8 fo
 initialie a secnd list to store the MEAN of each position 
     iterate through the first list and divide by (number of lines /4)
 
+#ok break point cause the coffee shop is closing : 
+
+WHERE I AM: 
+py script successfully gives me means of each poition in a list ON TEST FILE
+
+WHAT I STILL NEED TO DO : 
+generate plot 
+test on each test file
+run on big script
 
