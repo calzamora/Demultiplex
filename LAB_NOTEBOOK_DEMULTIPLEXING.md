@@ -59,4 +59,20 @@ Table:
 
 ### Question 2: per base distribution of Q scores - Average @ each positin - per NT mean distribution histogram 
 
+ok i want to be able to test my code on smaller files so I'm going to create test files of 800 lines similar to the test files given in PS 4: 
+
+```
+zcat 1294_S1_L008_R1_001.fastq.gz | head -800 >> /projects/bgmp/calz/bioinfo/Bi622/Demultiplex/R1_001_TEST.fastq 
+zcat 1294_S1_L008_R2_001.fastq.gz | head -800 >> /projects/bgmp/calz/bioinfo/Bi622/Demultiplex/R2_001_TEST.fastq 
+zcat 1294_S1_L008_R3_001.fastq.gz | head -800 >> /projects/bgmp/calz/bioinfo/Bi622/Demultiplex/R3_001_TEST.fastq 
+zcat 1294_S1_L008_R4_001.fastq.gz | head -800 >> /projects/bgmp/calz/bioinfo/Bi622/Demultiplex/R4_001_TEST.fastq 
+```
+
+how will i store this date? - similar to ps4
+initialize a list of the LENGTH of the reads (101 for the biological reads, 8 for indexes) 
+    iterate through the file and ADD (+=) to the i position of the list so I end with a list of the SUM of the Q score at each position 
+
+initialie a secnd list to store the MEAN of each position 
+    iterate through the first list and divide by (number of lines /4)
+
 
