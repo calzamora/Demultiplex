@@ -78,10 +78,55 @@ initialie a secnd list to store the MEAN of each position
 #ok break point cause the coffee shop is closing : 
 
 WHERE I AM: 
+
 py script successfully gives me means of each poition in a list ON TEST FILE
 
 WHAT I STILL NEED TO DO : 
+
 generate plot 
 test on each test file
 run on big script
 
+And we're back: 
+
+seems like its plotting succesfully so yay! Im gunna start the slurm script and test it on the mini files 
+
+#### SLURM SCRIPT: 
+/projects/bgmp/calz/bioinfo/Bi622/Demultiplex/distribution_graphs.sh
+
+```
+#!/bin/bash
+
+#SBATCH --account=bgmp
+#SBATCH --partition=bgmp
+#SBATCH -c 8
+```
+
+test on the small file : 
+```
+$ sbatch distribution_graphs.sh
+Submitted batch job 7704972
+```
+
+ok looks like that worked, I think I'm going to run all the big files in one even tho it'll take a bit longer so that I dont have a ton of slurm scripts so let me try that with the small files : 
+
+```
+$ sbatch distribution_graphs.sh
+Submitted batch job 7704974
+```
+ok sick seems like its working gunna switch it all to the real files: 
+
+```
+$ sbatch distribution_graphs.sh
+Submitted batch job 7704976
+```
+ok lets see how long that takes to run 
+yikes error: code freezze: 
+[out](slurm-7704976.out)
+
+talked to leslie - I need to download gzip and use with gzip.open and use the "rt" read format in the python 
+
+rerun: 
+```
+$ sbatch distribution_graphs.sh 
+Submitted batch job 7757271

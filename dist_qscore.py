@@ -3,13 +3,16 @@
 #READ FILE
 #READ LENGTH
 #OUTPUT graph name
+
+import gzip 
 import argparse
 import bioinfo as bi
+
 def get_args():
     parser = argparse.ArgumentParser(description="test")
     parser.add_argument("-f", help="specify the filename") #type: str
     parser.add_argument("-l", help="read length") #type: str
-    # parser.add_argument("-o", help="output graph name") #type: str
+    parser.add_argument("-o", help="output graph name") #type: str
     return parser.parse_args()
 
 args = get_args()
@@ -27,7 +30,7 @@ for i in range(0,read_len): # iterate through a range of 0 - length of reads giv
 
 # loop through through each q score line of the file and use convert phred to add the score to the i position of list 
 num_lines = 0 
-with open (file) as fh1:
+with gzip.open(file, "rt") as fh1:
     for indexnum, contents in enumerate(fh1): #this asigns the index location to indexnum and the actual score to contents
             num_lines += 1 #counter for the sum calc later
             if (indexnum)%4 == 3: # starting at index 3 count by 4 in order to only get q scores
@@ -43,11 +46,23 @@ mean_list = []
 for i in range(0,read_len): # iterate through a range of 0 - length of reads given by args parse  
     mean_list.append(0)
 
+nt_position_list = []
 #set total = to number of RECORDS in file
 total = int(num_lines/4)
 
 for i, sum in enumerate(pos_sum_list): 
+     position = i
+     nt_position_list.append(position)
      mean = sum/total
      mean_list[i] = mean
 
-# print(mean_list)
+#PLOT DISTRIBUTION
+import matplotlib.pyplot as plt
+
+plt.plot(nt_position_list, mean_list)
+
+plt.xlabel("Base Pair")
+plt.ylabel("Mean Quality Score")
+plt.title("Mean Quality Scores for Base Pair at Position X")
+
+plt.savefig(f"{args.o}.png")
