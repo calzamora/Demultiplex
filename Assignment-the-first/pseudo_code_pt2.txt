@@ -11,6 +11,7 @@ inputs:
 
 FUNCTIONS: 
 def rev_compliment: 
+"this function will reverse compliment a DNA seq and output the corresponding seq as a string"
 take in STRING 
 for each index pos of the string: 
     string.upper()
@@ -21,14 +22,22 @@ for each index pos of the string:
 return(string)
 
 def:append_index_head
-take in 3 strings (header, index 1, index 2)
+"this function will append both indexes to the END of a header"
+input: take in 3 strings (header, index 1, index 2)
 return(header + index1 + index2)
 
-def: get average of quality score for read (PS4)
-a function to get the MEAN q score for an entire read
+def: avg_qscore (PS4)
+"a function to get the MEAN q score for an entire READ"
+input: quality socres : str
+    use convert phred and mean the entire read 
+    return(mean q score of read)
 
+###
+I ACTUALLY DONT THINK I WANT TO MAKE THIS A FUNCTION
+###
 def: write file 
-writes out the file and DYNAMICALLy names it with the barcode seq when applicable
+"writes out the file and DYNAMICALLy names it with the barcode seq when applicable"
+
 
 
 
