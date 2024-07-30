@@ -130,3 +130,6 @@ rerun:
 ```
 $ sbatch distribution_graphs.sh 
 Submitted batch job 7757271
+ YAY that worked!!
+
+ ok so I updtaed the answers file and so all that I have to do this week is create the test files 

@@ -6,7 +6,7 @@
 
 | File name | label | Read length | Phred encoding |
 |---|---|---|---|
-| 1294_S1_L008_R1_001.fastq.gz | read1 | 101 | +33 |
+| 1294_S1_L008_R1_001.fastq.gz | read1 `|` 101 | +33 |
 | 1294_S1_L008_R2_001.fastq.gz | index1 | 8 | +33 |
 | 1294_S1_L008_R3_001.fastq.gz | index2 | 8 | +33 |
 | 1294_S1_L008_R4_001.fastq.gz | read2 | 101 | +33 |
@@ -16,6 +16,7 @@
     ![INDEX_001](../index_001.png)
     ![INDEX_002](../index_002.png)
     ![READ_001](../read_001.png)
+    ![READ_002](../read_002.png)
     
 ## Part 2
 1. Define the problem
