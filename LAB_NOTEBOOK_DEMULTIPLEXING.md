@@ -133,3 +133,35 @@ Submitted batch job 7757271
  YAY that worked!!
 
  ok so I updtaed the answers file and so all that I have to do this week is create the test files 
+
+ #### test files: 
+ creating test files with 4 records in the order of : 
+
+ MATCHED 
+ HOPPED
+ UNK INDEX
+ LOW QUAL INDEX
+
+ leslie noted to use indexes in the actual set of known indexes so that I dont have to make a new list of known indexes. 
+
+ NOTE: I'm going to have to revisit the qual score cutoff question - leaning toward cutting based on PER BASE qual score rather than mean qual score. 
+
+ known indexes im using for this : 
+GTAGCGTA rev comp: CATCGCAT
+
+AACAGCGA rev comp: TTGTCGCT
+
+Ok Im going to MANUALLY make the expected output files now : 
+8 total: 
+GTAGCGTA_matched_R1.fastq
+GTAGCGTA_matched_R2.fastq
+AACAGCGA_matched_R1.fastq
+AACAGCGA_matched_R2.fastq
+unknown_R1.fastq
+unknown_R2.fastq
+hopped_R1.fastq
+hopped_R2.fastq
+
+** adding in an extra record for MATCHED second index so that i have an output to that file
+
+ok im just going to try to figure out how many Ns are present in the indexes 
