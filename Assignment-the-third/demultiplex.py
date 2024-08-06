@@ -25,11 +25,13 @@ index_2 = args.R3
 read_2 = args.R4
 indexes = args.I
 output = args.O
+#the key is the nt and the value is the W-C cannonical pair
 comp_dict = {'A':'T', 'T':'A', 'C':'G', 'G':'C','N': 'N'}
 hopped_dict = {}
 R1_writing_dict = {}
 R2_writing_dict = {}
 index_set = set()
+unknown_counter = 0 
 # known = True
 # matched = True
 
@@ -64,17 +66,24 @@ with open(indexes) as index_list:
 # print(index_set)
 
 #dictionary for writing out READ 1 + 2: 
+#key is the index and the value is the file handle 
 for index in index_set:
     R1_writing_dict[index] = open(f"{index}_R1.fastq", "w")
     R2_writing_dict[index] = open(f"{index}_R2.fastq", "w")
-# print(R1_writing_dict)
 
+# create and open unknown files 
 unknown_file_R1 = open("unknown_R1.fastq", "w")
+unknown_file_R2 = open("unknown_R2.fastq", "w")
+
+# create and open hopped files: 
+hopped_file_R1 = open("hopped_R1.fastq", "w")
+hopped_file_R2 = open("hopped_R2.fastq", "w")
+
 #this opens each file concurently and reads the first 4 lines into its respective list
-with (open(read_1) as fh1,
-      open(index_1) as fh2,
-      open(index_2) as fh3,
-      open(read_2) as fh4):
+with (gzip.open(read_1) as fh1,
+      gzip.open(index_1) as fh2,
+      gzip.open(index_2) as fh3,
+      gzip.open(read_2) as fh4):
     while True:
         R1 = []
         I1 = []
@@ -85,21 +94,20 @@ with (open(read_1) as fh1,
             I1.append(fh2.readline().strip())
             I2.append(fh3.readline().strip())
             R2.append(fh4.readline().strip())
-        # print(R1)
-        # print(I1)
-        # print(I2)
-        # print(R2)
         #append the indexes to the headers of R1 and R2
         R1[0] = (append_header(R1[0], I1[1], rev_comp(I2[1])))
         R2[0] = (append_header(R2[0], I1[1], rev_comp(I2[1])))
-        # print(R1)
-        # print(R2)
-        if I1[1] not in index_set or I2[1] not in index_set:
+        if I1[1] not in index_set or rev_comp(I2[1]) not in index_set:
+            unknown_counter +=1
             unknown_file_R1.write(R1[0]+'\n'+R1[1]+'\n'+R1[2]+'\n'+R1[3]+'\n')
+            unknown_file_R2.write(R2[0]+'\n'+R2[1]+'\n'+R2[2]+'\n'+R2[3]+'\n')
+        elif I1[1] and rev_comp(I2[1]) in index_set:
+            mean_score = bi.qual_score(I1[3])
+            print(mean_score)
+            
+
 
             
-        elif I1[1] and I2[1] in index_set:
-            known = True
 
 
 
