@@ -164,11 +164,15 @@ for key in matched_dict:
 #calculate total number of reads: 
 total = unknown_counter + hopped + matched
 
-
+#print percent of reads frome ach sample 
+print(f"Percentage of Reads from each sample:\n")
 for index in matched_dict:
-    print(f"{index} {(matched_dict[index]/total) * 100}")
+    print(f"{index}: {(matched_dict[index]/total) * 100}%\n")
 
+print(f"Overall Amount of Index Swapping:\n {(hopped/total)*100}%\n")
 # with open("output_stats.md", "w") as fh1:
+
+print(f"Percentage of Unknown Reads:\n {(unknown_counter/total)*100}")
     
 
 
