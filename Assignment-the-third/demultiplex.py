@@ -166,7 +166,7 @@ for key in matched_dict:
 total = unknown_counter + hopped + matched
 
 
-with open("output_read_stats.txt", "w") as of1:
+with open(f"output_read_stats_{cut_off}.txt", "w") as of1:
     #total number of reads: 
     of1.write(f"Total Number of Reads:\n{total}\n")
 
@@ -187,27 +187,3 @@ with open("output_read_stats.txt", "w") as of1:
     of1.write(f"Percentage of Reads from each sample:\n")
     for index in matched_dict:
         of1.write(f"{index}:{(matched_dict[index]/total) * 100}%\n")
-
-
-
-
-# #total number of reads: 
-# print(f"Total Number of Reads:\n{total}")
-
-# #percent of unknown reads 
-# print(f"Percentage of Unknown Reads:\n {(unknown_counter/total)*100}\n")
-
-# #print percent of reads frome ach sample 
-# print(f"Percentage of Reads from each sample:\n")
-# for index in matched_dict:
-#     print(f"{index}: {(matched_dict[index]/total) * 100}%\n")
-
-# print(f"Overall Amount of Index Swapping:\n {(hopped/total)*100}%\n")
-# # with open("output_stats.md", "w") as fh1:
-
-    
-
-
-
-
-

@@ -141,6 +141,7 @@ Submitted batch job 7757271
  HOPPED
  UNK INDEX
  LOW QUAL INDEX
+ INDEX WITH Ns
 
  leslie noted to use indexes in the actual set of known indexes so that I dont have to make a new list of known indexes. 
 
@@ -165,3 +166,93 @@ hopped_R2.fastq
 ** adding in an extra record for MATCHED second index so that i have an output to that file
 
 ok im just going to try to figure out how many Ns are present in the indexes 
+
+#Assignment the Third#
+My test file are a bit fucked I need the indexes to be in this order : 
+ MATCHED 
+ HOPPED
+ UNK INDEX
+ LOW QUAL INDEX
+ INDEX WITH Ns
+
+ the matched is fine 
+
+ Ok so I need to make it so that the script outputs the statistics to an output file called output_read_stats.txt
+
+ I think its ready to run so im going to create a slurm script: Assignment-the-third/demultiplex_slurm.sh
+
+ I'm running ti forst on 30 so that I can compare w lauren and it'll go faster
+ ```
+ $ sbatch ./demultiplex_slurm.sh
+Submitted batch job 8372232
+ ```
+whoops lol forgot to do gzip: 
+[slurm out](Assignment-the-third/slurm-8372232.out)
+
+add gzip to open:
+```
+$ sbatch ./demultiplex_slurm.sh
+Submitted batch job 8372236
+```
+lol errored out again cause i didnt open as "rt"
+[slurm out ](Assignment-the-third/slurm-8372236.out)
+
+tested it on my zipped test files and it worked so running agian on the big files
+```
+$ sbatch ./demultiplex_slurm.sh
+Submitted batch job 8372430
+```
+
+loops like its running yay
+
+[slurm out](Assignment-the-third/slurm-8372430.out)
+ ok ok so it ran correctly but the output stats didnt match lauren and Zack so i rechecked how im calculating and noticed that wasnt counting the unknown files that get written out becuase of the quality score cut off rip 
+
+ so I added that counter itterater and rerunning: 
+
+ ```
+ $ sbatch ./demultiplex_slurm.sh
+Submitted batch job 8374787
+ ```
+
+ whoops forgot to empy the directery 
+ ok yay that it worked! 
+ [CUT off 30 slurm](Assignment-the-third/slurm-8374787.out)
+
+ [cut off 30 out directory](Assignment-the-third/30_cutoff)
+ [cut off 30 stats](Assignment-the-third/output_read_stats_30.txt)
+
+ I"m going to rerun it at 20 , 25, and 35 
+
+ ```
+ 10:11 PM calz Assignment-the-third $ sbatch 20-dm.sh 
+Submitted batch job 8388226
+10:18 PM calz Assignment-the-third $ sbatch 25-dm.sh 
+Submitted batch job 8388227
+10:18 PM calz Assignment-the-third $ sbatch 30-dm.sh 
+Submitted batch job 8388228
+ ```
+
+ Oh I just realized that this is gunna overewrite the stats files beause thats hard coded so i'm just gunna att a dynamic naming thing w the argparse so cancel those 
+ ```
+ 10:23 PM calz Assignment-the-third $ scancel 8388226
+10:23 PM calz Assignment-the-third $ scancel 8388227
+10:23 PM calz Assignment-the-third $ scancel 8388228
+ ```
+
+make that change and rerun: 
+```
+10:23 PM calz Assignment-the-third $ sbatch 20-dm.sh 
+Submitted batch job 8388695
+10:26 PM calz Assignment-the-third $ sbatch 25-dm.sh 
+Submitted batch job 8388696
+10:26 PM calz Assignment-the-third $ 
+10:26 PM calz Assignment-the-third $ sbatch 30-dm.sh 
+Submitted batch job 8388697
+```
+move all out slurms to old_slurm
+
+ok yay those all worked: 
+[slurm 20](Assignment-the-third/old_slurm/slurm-8388695.out)
+[slurm 25](Assignment-the-third/old_slurm/slurm-8388696.out)
+[slurm 30](Assignment-the-third/old_slurm/slurm-8388697.out)
