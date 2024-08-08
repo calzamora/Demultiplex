@@ -38,7 +38,7 @@ unknown_counter = 0
 # seq = "ATGCN"
 
 #define function to reverse compliment 
-def rev_comp(seq: str):
+def rev_comp(seq: str) -> str:
     '''this function returns a reverse copliments a sequence of upper case bases including Ns'''
     rev_seq = seq[::-1]
     RC = ""
@@ -47,7 +47,7 @@ def rev_comp(seq: str):
     return(RC)
 
 #function to append the index to the header 
-def append_header(record: str, Index_1: str, Index_2: str):
+def append_header(record: str, Index_1: str, Index_2: str) -> str:
     '''This function will take in the header of the read list [0], the seq of index 1 and the rev 
     compliment of index 2 [1] and output the header w indexes appended'''
     Index_2 = rev_comp(Index_2)
@@ -85,10 +85,10 @@ hopped_file_R1 = open(f"{output}/hopped_R1.fastq", "w")
 hopped_file_R2 = open(f"{output}/hopped_R2.fastq", "w")
 
 #this opens each file concurently and reads the first 4 lines into its respective list
-with (open(read_1) as fh1,
-      open(index_1) as fh2,
-      open(index_2) as fh3,
-      open(read_2) as fh4):
+with (gzip.open(read_1, "rt") as fh1,
+      gzip.open(index_1, "rt") as fh2,
+      gzip.open(index_2, "rt") as fh3,
+      gzip.open(read_2, "rt") as fh4):
     while True:
         R1 = []
         I1 = []
@@ -116,6 +116,7 @@ with (open(read_1) as fh1,
             I2_mean_score = bi.qual_score(I2[3])
             #if they dont write to unknown 
             if I1_mean_score < cut_off or I2_mean_score < cut_off:
+                unknown_counter +=1
                 unknown_file_R1.write(R1[0]+'\n'+R1[1]+'\n'+R1[2]+'\n'+R1[3]+'\n')
                 unknown_file_R2.write(R2[0]+'\n'+R2[1]+'\n'+R2[2]+'\n'+R2[3]+'\n')
             #if they do check if indexes match
@@ -164,15 +165,46 @@ for key in matched_dict:
 #calculate total number of reads: 
 total = unknown_counter + hopped + matched
 
-#print percent of reads frome ach sample 
-print(f"Percentage of Reads from each sample:\n")
-for index in matched_dict:
-    print(f"{index}: {(matched_dict[index]/total) * 100}%\n")
 
-print(f"Overall Amount of Index Swapping:\n {(hopped/total)*100}%\n")
-# with open("output_stats.md", "w") as fh1:
+with open("output_read_stats.txt", "w") as of1:
+    #total number of reads: 
+    of1.write(f"Total Number of Reads:\n{total}\n")
 
-print(f"Percentage of Unknown Reads:\n {(unknown_counter/total)*100}")
+    #calculate totaly number of matched reads 
+    matched = 0 
+    for key in matched_dict:
+        matched += matched_dict[key]
+    of1.write(f"Percentage of Matched Reads:\n{(matched/total)*100}%\n")
+
+    #percent of unknown reads 
+    of1.write(f"Percentage of Unknown Reads:\n{(unknown_counter/total)*100}%\n")
+   
+   #number of index swapping
+    of1.write(f"Overall Amount of Index Swapping:\n{(hopped/total)*100}%\n")
+    # with open("output_stats.md", "w") as fh1:
+
+    #print percent of reads frome ach sample 
+    of1.write(f"Percentage of Reads from each sample:\n")
+    for index in matched_dict:
+        of1.write(f"{index}:{(matched_dict[index]/total) * 100}%\n")
+
+
+
+
+# #total number of reads: 
+# print(f"Total Number of Reads:\n{total}")
+
+# #percent of unknown reads 
+# print(f"Percentage of Unknown Reads:\n {(unknown_counter/total)*100}\n")
+
+# #print percent of reads frome ach sample 
+# print(f"Percentage of Reads from each sample:\n")
+# for index in matched_dict:
+#     print(f"{index}: {(matched_dict[index]/total) * 100}%\n")
+
+# print(f"Overall Amount of Index Swapping:\n {(hopped/total)*100}%\n")
+# # with open("output_stats.md", "w") as fh1:
+
     
 
 
